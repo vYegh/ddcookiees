@@ -1,0 +1,6 @@
+# Scratch / source photos — these are raw uploads that were already
+# processed into cookies-site/assets/flavors/. Not part of the live site.
+cookies-site/updatedimgstemp/
+
+# OS noise
+.DS_Store

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Orders — Cookies by DD &amp; Alexa</title>
+<link rel="icon" href="assets/logo.png" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="orders.css" />
+</head>
+<body class="orders-page">
+
+<!-- ===== PASSWORD GATE ===== -->
+<div class="gate" id="gate">
+  <form class="gate-card" id="gateForm">
+    <img src="assets/logo.png" alt="" />
+    <h1>Orders</h1>
+    <p>Enter the password to view orders.</p>
+    <input type="password" id="gatePass" placeholder="Password" autocomplete="current-password" />
+    <button type="submit" class="btn btn-primary">Unlock</button>
+    <p class="gate-err" id="gateErr" hidden>Wrong password — try again.</p>
+  </form>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div class="dash" id="dash" hidden>
+  <header class="dash-head">
+    <a class="dash-brand" href="index.html"><img src="assets/logo.png" alt="" /><b>Orders</b></a>
+    <div class="dash-actions">
+      <button class="btn btn-ghost" id="refreshBtn" type="button">↻ Refresh</button>
+      <button class="btn btn-ghost" id="logoutBtn" type="button">Lock</button>
+    </div>
+  </header>
+
+  <!-- summary -->
+  <section class="summary" id="summary">
+    <div class="sum-card"><span class="sum-n" id="sumNew">0</span><small>New / unconfirmed</small></div>
+    <div class="sum-card"><span class="sum-n" id="sumWeek">0</span><small>Orders this week</small></div>
+    <div class="sum-card"><span class="sum-n" id="sumCookies">0</span><small>Cookies to bake</small></div>
+    <div class="sum-card"><span class="sum-n" id="sumRevenue">$0</span><small>Est. revenue (open)</small></div>
+  </section>
+
+  <!-- controls -->
+  <section class="controls">
+    <input type="search" id="search" placeholder="Search name, cookie, contact…" />
+    <div class="chips" id="statusChips">
+      <button class="chip active" data-status="all" type="button">All</button>
+      <button class="chip" data-status="New" type="button">New</button>
+      <button class="chip" data-status="Confirmed" type="button">Confirmed</button>
+      <button class="chip" data-status="Baking" type="button">Baking</button>
+      <button class="chip" data-status="Done" type="button">Done</button>
+    </div>
+    <select id="methodFilter">
+      <option value="all">All methods</option>
+      <option>Delivery</option>
+      <option>Pickup</option>
+      <option>Catering</option>
+    </select>
+    <select id="sortBy">
+      <option value="newest">Newest first</option>
+      <option value="needed">By date needed</option>
+    </select>
+  </section>
+
+  <!-- order list -->
+  <section class="order-list" id="orderList"></section>
+  <p class="dash-empty" id="dashEmpty" hidden>No orders match.</p>
+  <p class="dash-status" id="dashMsg"></p>
+</div>
+
+<script src="orders.js"></script>
+</body>
+</html>

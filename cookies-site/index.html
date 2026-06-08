@@ -186,31 +186,160 @@
   </div>
 </footer>
 
-<!-- ========== ORDER MODAL ========== -->
-<div class="modal-back" id="modal">
-  <div class="modal" role="dialog" aria-modal="true">
-    <button class="x" id="modalX" aria-label="Close">×</button>
-    <img src="assets/logo.png" alt="" />
-    <h3>How would you like it?</h3>
-    <p>Both go to the same quick order form.</p>
-    <div class="opts">
-      <a class="opt" data-form-go data-mode="delivery">
-        <span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 16V6a1 1 0 0 1 1-1h11v11M13 8h4l3 4v4M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM7 16h7"/></svg></span>
-        <span><b>Delivery</b><small>We'll bring them to your door</small></span>
-        <span class="arr">→</span>
-      </a>
-      <a class="opt" data-form-go data-mode="pickup">
-        <span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
-        <span><b>Pickup</b><small>Grab them fresh at a set time</small></span>
-        <span class="arr">→</span>
-      </a>
-      <a class="opt" data-form-go data-mode="catering">
-        <span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4v4h16V7Z"/><path d="M5 11v9h14v-9M12 7v13M12 7s-1.5-4-4-4-1.5 4 4 4Zm0 0s1.5-4 4-4 1.5 4-4 4Z"/></svg></span>
-        <span><b>Catering</b><small>Parties, showers &amp; events</small></span>
-        <span class="arr">→</span>
-      </a>
+<!-- ========== FULL-SCREEN ORDER FLOW ========== -->
+<div class="order-flow" id="orderFlow" role="dialog" aria-modal="true" aria-label="Place your order">
+  <form id="orderForm" class="flow-form">
+    <!-- hidden / anti-spam -->
+    <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+    <input type="hidden" name="subject" value="New cookie order from the website 🍪" />
+    <input type="hidden" name="from_name" value="Cookies by DD & Alexa" />
+    <input type="hidden" name="Order Type" id="modeField" value="" />
+
+    <!-- ===== FLOW HEADER ===== -->
+    <header class="flow-head">
+      <a class="flow-brand" href="#top"><img src="assets/logo.png" alt="" /><b>Cookies by <span>DD&nbsp;&amp;&nbsp;Alexa</span></b></a>
+      <div class="flow-progress" id="flowProgress">
+        <span class="dot" data-dot="1"><i>1</i><small>Method</small></span>
+        <span class="dot" data-dot="2"><i>2</i><small>Cookies</small></span>
+        <span class="dot" data-dot="3"><i>3</i><small>Details</small></span>
+        <span class="dot" data-dot="4"><i>4</i><small>Review</small></span>
+      </div>
+      <button type="button" class="flow-x" id="flowX" aria-label="Close">×</button>
+    </header>
+
+    <div class="flow-body">
+
+      <!-- ===== STEP 1: METHOD ===== -->
+      <section class="flow-step" data-step="1">
+        <div class="flow-inner">
+          <p class="eyebrow">step one</p>
+          <h2>How would you like your cookies?</h2>
+          <p class="flow-sub">Choose how you'll get them — this sets the rules for your order.</p>
+          <div class="method-cards">
+            <button type="button" class="method-card" data-method="Delivery">
+              <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 16V6a1 1 0 0 1 1-1h11v11M13 8h4l3 4v4M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM7 16h7"/></svg></span>
+              <b>Delivery</b>
+              <small>We'll bring them to your door.</small>
+              <em>5 cookie minimum • fee varies by location</em>
+            </button>
+            <button type="button" class="method-card" data-method="Pickup">
+              <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
+              <b>Pickup</b>
+              <small>Grab them fresh — DM us for spots.</small>
+              <em>No minimum • no delivery fee</em>
+            </button>
+            <button type="button" class="method-card" data-method="Catering">
+              <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4v4h16V7Z"/><path d="M5 11v9h14v-9M12 7v13M12 7s-1.5-4-4-4-1.5 4 4 4Zm0 0s1.5-4 4-4 1.5 4-4 4Z"/></svg></span>
+              <b>Catering</b>
+              <small>Parties, showers &amp; events.</small>
+              <em>Tell us all about your event</em>
+            </button>
+          </div>
+          <p class="flow-note">All orders must be placed at least <b>3 days in advance</b>.</p>
+        </div>
+      </section>
+
+      <!-- ===== STEP 2: COOKIES ===== -->
+      <section class="flow-step" data-step="2" hidden>
+        <div class="flow-inner wide">
+          <p class="eyebrow"><span data-mode-eyebrow>Delivery</span> · step two</p>
+          <h2>Pick your cookies</h2>
+          <p class="flow-sub" id="cookieSub">Tap a cookie to add it, then set how many of each.</p>
+          <div class="gallery" id="flavorGallery"></div>
+        </div>
+      </section>
+
+      <!-- ===== STEP 3: DETAILS ===== -->
+      <section class="flow-step" data-step="3" hidden>
+        <div class="flow-inner">
+          <p class="eyebrow"><span data-mode-eyebrow>Delivery</span> · step three</p>
+          <h2>Your details</h2>
+          <p class="flow-sub">We'll use these to confirm your order and arrange payment.</p>
+
+          <div class="detail-grid">
+            <label class="field">
+              <span>Your full name *</span>
+              <input type="text" name="Name" autocomplete="name" placeholder="Jane Doe" />
+            </label>
+            <label class="field" data-addr-field>
+              <span>Your address *</span>
+              <input type="text" name="Address" autocomplete="street-address" placeholder="Street, city, zip" />
+            </label>
+            <label class="field">
+              <span>Best way to reach you *</span>
+              <input type="text" name="Contact 1" placeholder="Phone, IG handle, email…" />
+            </label>
+            <label class="field">
+              <span>Backup contact *</span>
+              <input type="text" name="Contact 2" placeholder="Second way to reach you" />
+            </label>
+            <label class="field">
+              <span>Preferred payment *</span>
+              <select name="Payment">
+                <option value="" disabled selected>Choose…</option>
+                <option>Cash</option>
+                <option>Cash App</option>
+                <option>Apple Cash (NOT tap)</option>
+                <option>Zelle</option>
+                <option>Venmo</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Needed by *</span>
+              <input type="date" name="Date Needed" />
+            </label>
+            <label class="field span-2">
+              <span>Anything else? <small>Custom cookie idea, allergies, event details…</small></span>
+              <textarea name="Notes" rows="3" placeholder="Tell us about your order ♥"></textarea>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STEP 4: REVIEW ===== -->
+      <section class="flow-step" data-step="4" hidden>
+        <div class="flow-inner">
+          <p class="eyebrow">step four</p>
+          <h2>Review &amp; send</h2>
+          <p class="flow-sub">Here's everything — make sure it looks right.</p>
+
+          <div class="review-card" id="reviewCard"><!-- filled by JS --></div>
+
+          <label class="accept">
+            <input type="checkbox" name="Accepted Terms" id="acceptBox" value="Yes" />
+            <span>I understand delivery requires a <b>5-cookie minimum</b> — otherwise I'll pick up (DM <a href="https://www.instagram.com/cookiesbyddalexa" target="_blank" rel="noopener">@cookiesbyddalexa</a> for pickup spots), and orders are placed 3+ days ahead.</span>
+          </label>
+          <p class="flow-note">We'll reach out to confirm details, delivery fee &amp; final total. Payment is arranged after.</p>
+        </div>
+      </section>
+
+      <!-- ===== SUCCESS ===== -->
+      <section class="flow-step" data-step="done" hidden>
+        <div class="flow-inner center">
+          <img class="done-logo" src="assets/logo.png" alt="" />
+          <h2>Order sent! ♥</h2>
+          <p class="flow-sub">Thank you! We got your order and we'll reach out shortly to confirm the details. Can't wait to bake for you!</p>
+          <button type="button" class="btn btn-primary" id="doneClose">Done</button>
+        </div>
+      </section>
+
     </div>
-  </div>
+
+    <!-- ===== STICKY FOOTER (cart + nav) ===== -->
+    <footer class="flow-foot" id="flowFoot">
+      <div class="foot-cart">
+        <span class="fc-count" id="cartCount">0 cookies</span>
+        <span class="fc-total" id="cartTotal">$0</span>
+        <span class="fc-min" id="cartMin" hidden></span>
+      </div>
+      <div class="foot-nav">
+        <button type="button" class="btn btn-ghost flow-back" id="flowBack">← Back</button>
+        <button type="button" class="btn btn-primary flow-next" id="flowNext">Next →</button>
+        <button type="submit" class="btn btn-primary flow-submit" id="flowSubmit" hidden>Send My Order ♥</button>
+      </div>
+    </footer>
+  </form>
 </div>
 
 <button class="totop" id="totop" aria-label="Back to top">

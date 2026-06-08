@@ -1,0 +1,96 @@
+/* ============================================================
+   /orders dashboard — Cookies by DD & Alexa
+   Reuses brand tokens from styles.css (:root)
+   ============================================================ */
+.orders-page{ background:var(--cream); min-height:100vh; }
+
+/* ---------- password gate ---------- */
+/* [hidden] must win over the display rules below, or the gate keeps its layout space */
+[hidden]{ display:none !important; }
+.gate{ min-height:100vh; display:grid; place-content:center; padding:24px; }
+.gate-card{
+  background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow-lg);
+  padding:44px 40px; width:100%; max-width:380px; text-align:center; display:grid; gap:14px;
+}
+.gate-card img{ width:72px; height:72px; border-radius:50%; margin:0 auto; box-shadow:var(--shadow-sm); }
+.gate-card h1{ font-family:var(--font-display); font-weight:600; font-size:2.2rem; color:var(--rose-deep); margin:0; }
+.gate-card p{ color:var(--ink-soft); margin:0; }
+.gate-card input{
+  padding:13px 16px; border:1.5px solid var(--line); border-radius:12px; font:inherit; font-size:1rem;
+  text-align:center; transition:.2s;
+}
+.gate-card input:focus{ outline:none; border-color:var(--rose); box-shadow:0 0 0 3px rgba(217,138,156,.18); }
+.gate-card .btn{ justify-content:center; }
+.gate-err{ color:var(--rose-deep) !important; font-size:.88rem; }
+
+/* ---------- dashboard shell ---------- */
+.dash{ max-width:1100px; margin:0 auto; padding:24px 24px 80px; }
+.dash-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px; }
+.dash-brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+.dash-brand img{ width:46px; height:46px; border-radius:50%; box-shadow:var(--shadow-sm); }
+.dash-brand b{ font-family:var(--font-display); font-weight:600; font-size:1.6rem; color:var(--rose-deep); }
+.dash-actions{ display:flex; gap:10px; }
+.dash-actions .btn{ padding:10px 18px; font-size:.8rem; }
+
+/* ---------- summary ---------- */
+.summary{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+.sum-card{
+  background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px 20px; text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.sum-n{ display:block; font-family:var(--font-display); font-weight:700; font-size:2.2rem; color:var(--rose-deep); line-height:1; }
+.sum-card small{ color:var(--ink-soft); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
+
+/* ---------- controls ---------- */
+.controls{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:22px; }
+.controls input[type="search"], .controls select{
+  padding:11px 16px; border:1.5px solid var(--line); border-radius:999px; font:inherit; font-size:.92rem; background:#fff; color:var(--ink);
+}
+.controls input[type="search"]{ flex:1; min-width:220px; }
+.controls input:focus, .controls select:focus{ outline:none; border-color:var(--rose); }
+.chips{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{
+  padding:9px 16px; border:1.5px solid var(--line); border-radius:999px; background:#fff; color:var(--ink);
+  font:inherit; font-size:.85rem; cursor:pointer; transition:.2s;
+}
+.chip:hover{ border-color:var(--rose); color:var(--rose-deep); }
+.chip.active{ background:var(--rose); border-color:var(--rose); color:#fff; }
+
+/* ---------- order cards ---------- */
+.order-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; }
+.order-card{
+  background:#fff; border:1px solid var(--line); border-radius:20px; padding:20px 22px; box-shadow:var(--shadow-sm);
+  border-left:5px solid var(--line); transition:.2s;
+}
+.order-card.status-new{ border-left-color:var(--rose-deep); }
+.order-card.status-confirmed{ border-left-color:var(--blue); }
+.order-card.status-baking{ border-left-color:var(--gold); }
+.order-card.status-done{ border-left-color:#9bbf9b; opacity:.78; }
+
+.o-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.o-top h3{ font-family:var(--font-display); font-weight:600; font-size:1.4rem; color:var(--rose-deep); margin:0; line-height:1.1; }
+.o-meta{ font-size:.78rem; color:var(--ink-soft); }
+.o-status{
+  padding:7px 10px; border:1.5px solid var(--line); border-radius:10px; font:inherit; font-size:.82rem; font-weight:600;
+  background:#fff; color:var(--ink); cursor:pointer; flex:none;
+}
+.o-status:focus{ outline:none; border-color:var(--rose); }
+
+.o-cookies{ list-style:none; margin:0 0 12px; padding:0 0 12px; border-bottom:1px dashed var(--line); display:grid; gap:4px; }
+.o-cookies li{ font-size:.92rem; color:var(--ink); }
+.o-tot{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
+.o-tot span{ font-weight:600; color:var(--ink); }
+.o-tot b{ font-size:1.2rem; color:var(--rose-deep); }
+.o-details{ display:grid; gap:7px; }
+.o-row{ display:flex; justify-content:space-between; gap:14px; font-size:.86rem; }
+.o-row span{ color:var(--ink-soft); flex:none; }
+.o-row b{ color:var(--ink); text-align:right; font-weight:600; word-break:break-word; }
+
+.dash-empty, .dash-status{ text-align:center; color:var(--ink-soft); margin-top:24px; }
+
+/* ---------- responsive ---------- */
+@media(max-width:720px){
+  .summary{ grid-template-columns:repeat(2,1fr); }
+  .controls input[type="search"]{ min-width:100%; }
+  .order-list{ grid-template-columns:1fr; }
+}
