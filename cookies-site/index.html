@@ -201,8 +201,9 @@
       <div class="flow-progress" id="flowProgress">
         <span class="dot" data-dot="1"><i>1</i><small>Method</small></span>
         <span class="dot" data-dot="2"><i>2</i><small>Cookies</small></span>
-        <span class="dot" data-dot="3"><i>3</i><small>Details</small></span>
-        <span class="dot" data-dot="4"><i>4</i><small>Review</small></span>
+        <span class="dot" data-dot="3"><i>3</i><small>When</small></span>
+        <span class="dot" data-dot="4"><i>4</i><small>Details</small></span>
+        <span class="dot" data-dot="5"><i>5</i><small>Review</small></span>
       </div>
       <button type="button" class="flow-x" id="flowX" aria-label="Close">×</button>
     </header>
@@ -249,66 +250,132 @@
         </div>
       </section>
 
-      <!-- ===== STEP 3: DETAILS ===== -->
+      <!-- ===== STEP 3: WHEN ===== -->
       <section class="flow-step" data-step="3" hidden>
         <div class="flow-inner">
           <p class="eyebrow"><span data-mode-eyebrow>Delivery</span> · step three</p>
+          <h2>When do you need them?</h2>
+          <p class="flow-sub">Orders are placed at least <b>3 days ahead</b> — <span id="calHint"></span>.</p>
+
+          <input type="hidden" name="Date Needed" />
+          <div class="cal" id="cal">
+            <div class="cal-head">
+              <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+              <b id="calTitle"></b>
+              <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+            </div>
+            <div class="cal-dow"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+          <p class="cal-picked" id="calPicked" hidden></p>
+
+          <label class="field cal-notes">
+            <span>Anything else about your order? <small>Allergies, custom cookie ideas, event details…</small></span>
+            <textarea name="Notes" rows="3" placeholder="Tell us about your order ♥"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <!-- ===== STEP 4: DETAILS ===== -->
+      <section class="flow-step" data-step="4" hidden>
+        <div class="flow-inner">
+          <p class="eyebrow"><span data-mode-eyebrow>Delivery</span> · step four</p>
           <h2>Your details</h2>
           <p class="flow-sub">We'll use these to confirm your order and arrange payment.</p>
 
           <div class="detail-grid">
-            <label class="field">
+            <label class="field span-2">
               <span>Your full name *</span>
               <input type="text" name="Name" autocomplete="name" placeholder="Jane Doe" />
             </label>
-            <label class="field" data-addr-field>
-              <span>Your address *</span>
-              <input type="text" name="Address" autocomplete="street-address" placeholder="Street, city, zip" />
-            </label>
-            <label class="field">
+            <div class="field span-2" data-addr-field>
+              <span>Delivery address *</span>
+              <div class="addr-grid">
+                <div class="addr-street">
+                  <input type="text" id="addrStreet" placeholder="Street address — start typing to search" autocomplete="off" />
+                  <ul class="addr-sugs" id="addrSugs" hidden></ul>
+                </div>
+                <input type="text" id="addrApt" placeholder="Apt / unit (optional)" autocomplete="address-line2" />
+                <input type="text" id="addrCity" placeholder="City" autocomplete="address-level2" />
+                <input type="text" id="addrState" placeholder="State" value="FL" autocomplete="address-level1" />
+                <input type="text" id="addrZip" placeholder="ZIP" inputmode="numeric" autocomplete="postal-code" />
+              </div>
+              <small class="fee-line" id="feeLine" hidden></small>
+              <input type="hidden" name="Address" />
+            </div>
+
+            <div class="field span-2">
               <span>Best way to reach you *</span>
-              <input type="text" name="Contact 1" placeholder="Phone, IG handle, email…" />
-            </label>
-            <label class="field">
+              <div class="cp-row" data-contact="Contact 1">
+                <button type="button" class="cp-btn" data-cm="Call">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+                  Call
+                </button>
+                <button type="button" class="cp-btn" data-cm="Text">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>
+                  Text
+                </button>
+                <button type="button" class="cp-btn" data-cm="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  Instagram
+                </button>
+              </div>
+              <input type="text" class="cp-input" autocomplete="off" hidden />
+              <input type="hidden" name="Contact 1" />
+            </div>
+
+            <div class="field span-2">
               <span>Backup contact *</span>
-              <input type="text" name="Contact 2" placeholder="Second way to reach you" />
-            </label>
-            <label class="field">
+              <div class="cp-row" data-contact="Contact 2">
+                <button type="button" class="cp-btn" data-cm="Call">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+                  Call
+                </button>
+                <button type="button" class="cp-btn" data-cm="Text">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>
+                  Text
+                </button>
+                <button type="button" class="cp-btn" data-cm="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  Instagram
+                </button>
+              </div>
+              <input type="text" class="cp-input" autocomplete="off" hidden />
+              <input type="hidden" name="Contact 2" />
+            </div>
+
+            <div class="field span-2">
               <span>Preferred payment *</span>
-              <select name="Payment">
-                <option value="" disabled selected>Choose…</option>
-                <option>Cash</option>
-                <option>Cash App</option>
-                <option>Apple Cash (NOT tap)</option>
-                <option>Zelle</option>
-                <option>Venmo</option>
-                <option>Other</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Needed by *</span>
-              <input type="date" name="Date Needed" />
-            </label>
-            <label class="field span-2">
-              <span>Anything else? <small>Custom cookie idea, allergies, event details…</small></span>
-              <textarea name="Notes" rows="3" placeholder="Tell us about your order ♥"></textarea>
-            </label>
+              <div class="pay-chips" id="payChips">
+                <button type="button" class="pay-chip" data-pay="Venmo">Venmo</button>
+                <button type="button" class="pay-chip" data-pay="Zelle">Zelle</button>
+                <button type="button" class="pay-chip" data-pay="Cash App">Cash App</button>
+                <button type="button" class="pay-chip" data-pay="Cash">Cash</button>
+                <button type="button" class="pay-chip" data-pay="Apple Cash (NOT tap)">Apple Cash</button>
+                <button type="button" class="pay-chip" data-pay="Other">Other</button>
+              </div>
+              <input type="hidden" name="Payment" />
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== STEP 4: REVIEW ===== -->
-      <section class="flow-step" data-step="4" hidden>
+      <!-- ===== STEP 5: REVIEW ===== -->
+      <section class="flow-step" data-step="5" hidden>
         <div class="flow-inner">
-          <p class="eyebrow">step four</p>
+          <p class="eyebrow">step five</p>
           <h2>Review &amp; send</h2>
           <p class="flow-sub">Here's everything — make sure it looks right.</p>
 
           <div class="review-card" id="reviewCard"><!-- filled by JS --></div>
 
-          <label class="accept">
+          <label class="accept" data-accept-delivery>
             <input type="checkbox" name="Accepted Terms" id="acceptBox" value="Yes" />
-            <span>I understand delivery requires a <b>5-cookie minimum</b> — otherwise I'll pick up (DM <a href="https://www.instagram.com/cookiesbyddalexa" target="_blank" rel="noopener">@cookiesbyddalexa</a> for pickup spots), and orders are placed 3+ days ahead.</span>
+            <span>I understand delivery requires a <b>5-cookie minimum</b> — otherwise I'll pick up (DM <a href="https://www.instagram.com/cookiesbyddalexa" target="_blank" rel="noopener">@cookiesbyddalexa</a> for pickup spots).</span>
+          </label>
+          <label class="accept">
+            <input type="checkbox" name="Cancellation Policy" id="cancelBox" value="Agreed" />
+            <span>I understand I can cancel my order <b>within 24 hours</b> of placing it — after that, my order is <b>final</b>.</span>
           </label>
           <p class="flow-note">We'll reach out to confirm details, delivery fee &amp; final total. Payment is arranged after.</p>
         </div>
@@ -320,7 +387,10 @@
           <img class="done-logo" src="assets/logo.png" alt="" />
           <h2>Order sent! ♥</h2>
           <p class="flow-sub">Thank you! We got your order and we'll reach out shortly to confirm the details. Can't wait to bake for you!</p>
-          <button type="button" class="btn btn-primary" id="doneClose">Done</button>
+          <div class="done-actions">
+            <button type="button" class="btn btn-ghost" id="printBtn">🖨 Print receipt</button>
+            <button type="button" class="btn btn-primary" id="doneClose">Done</button>
+          </div>
         </div>
       </section>
 
@@ -345,6 +415,8 @@
 <button class="totop" id="totop" aria-label="Back to top">
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
+
+<div id="printReceipt"></div>
 
 <script src="script.js"></script>
 </body>

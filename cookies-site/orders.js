@@ -12,7 +12,7 @@ const TOKEN    = "iW53FSjgO4c8ptJmZFkIXLQ55cYNjRQe"; // must equal SECRET in app
 const VIEW_PASSWORD = "cookies";   // change this!
 // ================================================================
 
-const STATUSES = ["New", "Confirmed", "Baking", "Done"];
+const STATUSES = ["New", "Confirmed", "Baking", "Ready", "Done"];
 
 let allOrders = [];
 let filter = { status: "all", method: "all", q: "", sort: "newest" };

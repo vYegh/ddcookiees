@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
 <title>Orders — Cookies by DD &amp; Alexa</title>
+<!-- The Bake Book tracker (admin.html) is now the primary orders page.
+     Forward here unless ?legacy is set (the "Previous tracker" link uses it). -->
+<script>
+  if (!/[?&]legacy\b/.test(location.search)) {
+    location.replace("admin.html");
+  }
+</script>
 <link rel="icon" href="assets/logo.png" />
 <link rel="stylesheet" href="styles.css" />
 <link rel="stylesheet" href="orders.css" />
@@ -28,6 +35,7 @@
   <header class="dash-head">
     <a class="dash-brand" href="index.html"><img src="assets/logo.png" alt="" /><b>Orders</b></a>
     <div class="dash-actions">
+      <a class="btn btn-ghost" href="admin.html">✨ Bake Book</a>
       <button class="btn btn-ghost" id="refreshBtn" type="button">↻ Refresh</button>
       <button class="btn btn-ghost" id="logoutBtn" type="button">Lock</button>
     </div>
@@ -49,6 +57,7 @@
       <button class="chip" data-status="New" type="button">New</button>
       <button class="chip" data-status="Confirmed" type="button">Confirmed</button>
       <button class="chip" data-status="Baking" type="button">Baking</button>
+      <button class="chip" data-status="Ready" type="button">Ready</button>
       <button class="chip" data-status="Done" type="button">Done</button>
     </div>
     <select id="methodFilter">

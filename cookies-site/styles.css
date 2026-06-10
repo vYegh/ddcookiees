@@ -466,8 +466,87 @@ section{ position:relative; }
   outline:none; border-color:var(--rose); box-shadow:0 0 0 3px rgba(217,138,156,.18);
 }
 .field textarea{ resize:vertical; }
+.fee-line{ display:block; margin-top:4px; font-size:.84rem; font-weight:600; color:var(--blue-deep); }
+.fee-line.warn{ color:var(--rose-ink); }
+.fee-line[hidden]{ display:none; }
 
-/* ---- step 4: review ---- */
+/* ---- structured address + lookup ---- */
+.addr-grid{ display:grid; grid-template-columns:1.1fr 1.9fr .7fr .9fr; gap:10px; }
+.addr-grid .addr-street{ grid-column:1 / -1; position:relative; }
+.addr-street input{ width:100%; }
+.addr-sugs{
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:40;
+  background:#fff; border:1.5px solid var(--line); border-radius:16px;
+  box-shadow:var(--shadow-md); list-style:none; margin:0; padding:6px;
+  max-height:250px; overflow:auto;
+}
+.addr-sugs[hidden]{ display:none; }
+.addr-sugs li{ padding:11px 13px; border-radius:11px; cursor:pointer; font-size:.92rem; color:var(--ink); }
+.addr-sugs li:hover{ background:var(--blush-soft); color:var(--rose-deep); }
+
+/* ---- step 3: when (calendar) ---- */
+.cal{
+  background:#fff; border:1.5px solid var(--line); border-radius:22px; padding:24px 26px;
+  box-shadow:var(--shadow-sm);
+}
+.cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.cal-head b{ font-family:var(--font-display); font-weight:600; font-size:1.4rem; color:var(--rose-deep); }
+.cal-nav{
+  width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line); background:#fff;
+  color:var(--rose-deep); font-size:1.4rem; line-height:1; cursor:pointer; transition:.2s;
+  display:grid; place-content:center;
+}
+.cal-nav:hover:not(:disabled){ border-color:var(--rose); background:var(--rose); color:#fff; }
+.cal-nav:disabled{ opacity:.3; cursor:default; }
+.cal-dow{
+  display:grid; grid-template-columns:repeat(7,1fr); text-align:center;
+  font-family:var(--font-label); text-transform:uppercase; letter-spacing:.08em;
+  font-size:.62rem; color:var(--ink-soft); margin-bottom:6px;
+}
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+.cal-d{
+  aspect-ratio:1; border:0; border-radius:50%; background:none; font:inherit; font-size:1.02rem;
+  color:var(--ink); cursor:pointer; transition:.15s; display:grid; place-content:center;
+}
+.cal-d:hover:not(:disabled){ background:var(--blush-soft); color:var(--rose-deep); }
+.cal-d:disabled{ color:#dcc9c6; cursor:default; }
+.cal-d.today{ box-shadow:inset 0 0 0 1.5px var(--blush); }
+.cal-d.sel{
+  background:var(--rose-deep); color:#fff; font-weight:700;
+  box-shadow:0 0 0 3px rgba(217,138,156,.25);
+}
+.cal-picked{
+  margin:14px 0 0; font-family:var(--font-display); font-style:italic;
+  font-size:1.2rem; color:var(--rose-deep);
+}
+.cal-notes{ margin-top:24px; }
+
+/* ---- step 4: contact-method picker ---- */
+.cp-row{ display:flex; gap:8px; }
+.cp-btn{
+  flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 8px; border:1.5px solid var(--line); border-radius:12px; background:#fff;
+  font-family:var(--font-label); text-transform:uppercase; letter-spacing:.08em;
+  font-size:.7rem; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:.2s;
+}
+.cp-btn svg{ width:17px; height:17px; flex:none; }
+.cp-btn:hover{ border-color:var(--rose); color:var(--rose-deep); }
+.cp-btn.on{
+  border-color:var(--rose); background:var(--blush-soft); color:var(--rose-deep);
+  box-shadow:0 0 0 3px rgba(217,138,156,.15);
+}
+.cp-input{ margin-top:8px; }
+
+/* ---- step 4: payment chips ---- */
+.pay-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.pay-chip{
+  padding:12px 18px; border:1.5px solid var(--line); border-radius:999px; background:#fff;
+  font:inherit; font-size:.88rem; color:var(--ink); cursor:pointer; transition:.2s;
+}
+.pay-chip:hover{ border-color:var(--rose); color:var(--rose-deep); }
+.pay-chip.on{ background:var(--rose); border-color:var(--rose); color:#fff; font-weight:600; }
+
+/* ---- step 5: review ---- */
 .review-card{ background:#fff; border:1.5px solid var(--line); border-radius:20px; padding:26px; margin-bottom:22px; }
 .rv-mode{ font-family:var(--font-label); text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; color:var(--blue-deep); margin-bottom:14px; }
 .rv-cookies{ list-style:none; margin:0 0 14px; padding:0 0 14px; border-bottom:1px dashed var(--line); display:grid; gap:8px; }
@@ -477,17 +556,47 @@ section{ position:relative; }
 .rv-tot span{ font-weight:600; color:var(--ink); }
 .rv-tot b{ font-size:1.5rem; color:var(--rose-deep); }
 .rv-tot b small{ font-size:.72rem; font-weight:400; color:var(--ink-soft); margin-left:4px; }
+.rv-tot.rv-sub{ padding-bottom:0; margin-bottom:10px; border-bottom:0; }
+.rv-tot.rv-sub span{ font-weight:400; color:var(--ink-soft); font-size:.92rem; }
+.rv-tot.rv-sub b{ font-size:1.05rem; color:var(--ink); }
+.rv-cookies li small{ color:var(--ink-soft); font-size:.78rem; }
 .rv-details{ display:grid; gap:10px; }
 .rv-row{ display:flex; justify-content:space-between; gap:16px; font-size:.95rem; }
 .rv-row span{ color:var(--ink-soft); flex:none; }
 .rv-row b{ color:var(--ink); text-align:right; font-weight:600; }
 
 .accept{ display:flex; gap:10px; align-items:flex-start; font-size:.88rem; line-height:1.5; color:var(--ink); cursor:pointer; }
+.accept[hidden]{ display:none; }
+.accept + .accept{ margin-top:12px; }
 .accept input{ width:20px; height:20px; flex:none; margin-top:1px; accent-color:var(--rose-deep); cursor:pointer; }
 .accept b{ color:var(--rose-ink); }
 .accept a{ color:var(--blue-deep); text-decoration:underline; }
 
 .done-logo{ width:96px; height:96px; border-radius:50%; box-shadow:var(--shadow-sm); margin:0 auto 18px; }
+.done-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* ---- printable receipt (only visible when printing) ---- */
+#printReceipt{ display:none; }
+@media print{
+  body > *:not(#printReceipt){ display:none !important; }
+  body{ background:#fff !important; }
+  body::before, body::after{ display:none !important; }
+  #printReceipt{
+    display:block; width:100%;
+    padding:28px; color:#222; font-family:Georgia, serif;
+  }
+  #printReceipt h2{ margin:0 0 2px; font-size:1.5rem; }
+  #printReceipt .pr-sub{ margin:0 0 18px; font-size:.85rem; color:#666; }
+  #printReceipt .pr-table{ width:100%; border-collapse:collapse; margin-bottom:14px; }
+  #printReceipt .pr-table th{ text-align:left; font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; color:#666; border-bottom:1px solid #ccc; padding:6px 4px; }
+  #printReceipt .pr-table th:nth-child(n+2), #printReceipt .pr-table td:nth-child(n+2){ text-align:right; }
+  #printReceipt .pr-table td{ padding:7px 4px; border-bottom:1px dashed #ddd; font-size:.95rem; }
+  #printReceipt .pr-row{ display:flex; justify-content:space-between; padding:3px 4px; font-size:.95rem; }
+  #printReceipt .pr-grand{ border-top:1.5px solid #222; margin-top:6px; padding-top:8px; font-size:1.1rem; }
+  #printReceipt .pr-meta{ margin-top:20px; padding-top:12px; border-top:1px solid #ccc; }
+  #printReceipt .pr-meta p{ margin:3px 0; font-size:.92rem; }
+  #printReceipt .pr-fine{ margin-top:18px; font-size:.8rem; color:#666; font-style:italic; }
+}
 
 /* ---- sticky footer (cart + nav) ---- */
 .flow-foot{
@@ -524,8 +633,23 @@ section{ position:relative; }
   .flow-foot{ flex-direction:column; align-items:stretch; gap:12px; padding:14px 16px; }
   .foot-nav{ margin-left:0; }
   .flow-back, .flow-next, .flow-submit{ flex:1; justify-content:center; }
+  /* calendar fills the phone screen, bigger touch targets */
+  .cal{ max-width:none; padding:16px 14px; }
+  .cal-grid{ gap:6px; }
+  .cal-d{ font-size:1.02rem; }
+  .cal-nav{ width:44px; height:44px; }
+  .cp-btn{ padding:15px 4px; letter-spacing:.05em; }
+  .cp-btn svg{ width:18px; height:18px; }
+  .pay-chip{ padding:13px 16px; flex:1 1 auto; text-align:center; }
+  .addr-grid{ grid-template-columns:1fr 1fr; }
+  .addr-grid #addrApt, .addr-grid #addrCity{ grid-column:auto; }
 }
-@media(max-width:380px){ .gallery{ grid-template-columns:1fr; } }
+@media(max-width:380px){
+  .gallery{ grid-template-columns:1fr; }
+  .flow-progress .dot{ padding:0 5px; }
+  .flow-progress .dot::after{ right:-4px; width:8px; }
+  .cp-btn{ font-size:.62rem; gap:6px; }
+}
 
 
 /* ---------- reveal on scroll ---------- */

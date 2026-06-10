@@ -5,6 +5,7 @@
  *   • POST (action=create) → append a new order row        (called by the website order form)
  *   • GET  (no action)     → return all orders as JSON      (read by the /orders dashboard)
  *   • POST (action=status) → update one order's status      (status dropdown on the dashboard)
+ *   • POST (action=paid)   → mark one order paid / unpaid   (paid toggle on the Bake Book tracker)
  *
  * SETUP: see SETUP.md. In short — paste this into script.google.com,
  * set the two CONFIG values below, Deploy as a Web App ("Anyone"),
@@ -40,6 +41,18 @@ function getSheet_() {
   return sheet;
 }
 
+/* Find a column by header name (1-based); create it after the last column if
+   missing. Lets existing sheets gain new columns without re-creating the sheet. */
+function col_(sheet, name) {
+  const head = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  let idx = head.indexOf(name);
+  if (idx === -1) {
+    idx = head.length;
+    sheet.getRange(1, idx + 1).setValue(name);
+  }
+  return idx + 1;
+}
+
 function json_(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
@@ -61,8 +74,29 @@ function doPost(e) {
       return json_({ ok: true });
     }
 
+    // --- delete an order (from the Bake Book tracker) ---
+    if (p.action === "del") {
+      if (p.token !== SECRET) return json_({ ok: false, error: "unauthorized" });
+      const row = parseInt(p.row, 10);
+      if (!row || row < 2 || row > sheet.getLastRow()) return json_({ ok: false, error: "bad row" });
+      sheet.deleteRow(row);
+      return json_({ ok: true });
+    }
+
+    // --- mark an order paid / unpaid (from the Bake Book tracker) ---
+    if (p.action === "paid") {
+      if (p.token !== SECRET) return json_({ ok: false, error: "unauthorized" });
+      const row = parseInt(p.row, 10);
+      if (!row || row < 2) return json_({ ok: false, error: "bad row" });
+      sheet.getRange(row, col_(sheet, "Paid")).setValue(p.paid === "1" ? "Yes" : "");
+      return json_({ ok: true });
+    }
+
     // --- create a new order (from the website form) ---
     // No token required here so the public form can submit; spam is mitigated by the honeypot.
+    // Guard rails: never let an unrecognized action or an empty submission append a row.
+    if (p.action && p.action !== "create") return json_({ ok: false, error: "unknown action" });
+    if (!p.Name && !p.Cookies) return json_({ ok: false, error: "empty order" });
     const now = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm");
     const row = HEADERS.map(h => {
       if (h === "Timestamp") return now;
@@ -70,6 +104,11 @@ function doPost(e) {
       return p[h] || "";
     });
     sheet.appendRow(row);
+    // extra columns that live past the original 13 headers
+    const last = sheet.getLastRow();
+    if (p.Paid) sheet.getRange(last, col_(sheet, "Paid")).setValue("Yes");
+    if (p["Distance"]) sheet.getRange(last, col_(sheet, "Distance")).setValue(p["Distance"]);
+    if (p["Delivery Fee"]) sheet.getRange(last, col_(sheet, "Delivery Fee")).setValue(p["Delivery Fee"]);
     return json_({ ok: true });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
